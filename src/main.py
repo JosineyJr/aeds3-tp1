@@ -1,38 +1,45 @@
-# src/main.py
-
-from algorithms.sequencial import sequential_search
-from utils.data_loader import load_data_from_csv
+from algorithms.search_function import search_functions
+from utils.data_loader import load
 from utils.analysis import analyze_search_performance, plot_results
 from utils.random_data_generator import generate_random_data
-
+import sys
 
 def main():
-    sizes = [100, 500, 1000, 5000, 10000]
+    algorithms = ['avl tree', 'sequential', 'binary tree']
+    keys = ['present', 'absent']
     types = ["ordered", "unordered"]
+    sizes = [100, 500, 1000, 5000, 10000]
 
-    for data_type in types:
-        time_results = {"Sequential": []}
-        comparison_results = {"Sequential": []}
+    sys.setrecursionlimit(max(sizes) + 500)
 
-        for size in sizes:
-            filename = f"data/data_{data_type}_{size}.csv"
+    for algorithm in algorithms:
+        print(f"Algorithm: {algorithm}")
 
-            generate_random_data(
-                num_records=size, data_type=data_type, output_file=filename)
+        for key in keys:
 
-            data = load_data_from_csv(filename)
+            for data_type in types:
+                time_results = {algorithm: []}
+                comparison_results = {algorithm: []}
 
-            avg_time, avg_comparisons = analyze_search_performance(
-                data, sequential_search)
+                for size in sizes:
+                    filename = f"data/data_{data_type}_{size}.csv"
 
-            time_results["Sequential"].append(avg_time)
-            comparison_results["Sequential"].append(avg_comparisons)
+                    generate_random_data(
+                        num_records=size, data_type=data_type, output_file=filename)
 
-        plot_results(sizes, time_results, f"Average Time vs Data Size ({data_type})",
-                     "Time (seconds)", f"reports/sequencial/time_analysis_{data_type}.png", decimal_places=5)
+                    data = load(algo=algorithm, filename=filename)
 
-        plot_results(sizes, comparison_results, f"Average Comparisons vs Data Size ({data_type})",
-                     "Number of Comparisons", f"reports/sequencial/comparison_analysis_{data_type}.png", decimal_places=2)
+                    avg_time, avg_comparisons = analyze_search_performance(
+                        data, search_functions[algorithm], key_type=key)
+
+                    time_results[algorithm].append(avg_time)
+                    comparison_results[algorithm].append(avg_comparisons)
+
+                plot_results(sizes, time_results, f"Average Time vs Data Size - {data_type} - Key {key}",
+                             "Time (seconds)", f"reports/{algorithm}/time_analysis_{data_type}_{key}.png", decimal_places=7)
+
+                plot_results(sizes, comparison_results, f"Average Comparisons vs Data Size - {data_type} - Key {key}",
+                             "Number of Comparisons", f"reports/{algorithm}/comparison_analysis_{data_type}_{key}.png", decimal_places=2)
 
 
 if __name__ == "__main__":

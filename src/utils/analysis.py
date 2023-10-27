@@ -4,13 +4,21 @@ import matplotlib.pyplot as plt
 import os
 
 
-def analyze_search_performance(data, search_function):
-    search_keys = generate_search_keys(data)
+def analyze_search_performance(data, search_function, key_type='present'):
+    keys_present, keys_absent = generate_search_keys(
+        data_or_tree=data, num_keys=15)
+
+    if key_type == 'present':
+        keys = keys_present
+        print(f"Keys present: {keys}")
+    else:
+        keys = keys_absent
+        print(f"Keys absent: {keys}")
 
     total_comparisons = 0
     total_time = 0
 
-    for key in search_keys:
+    for key in keys:
         start_time = time()
         _, comparisons = search_function(data, key)
         end_time = time()
@@ -18,20 +26,21 @@ def analyze_search_performance(data, search_function):
         total_time += (end_time - start_time)
         total_comparisons += comparisons
 
-    avg_time = total_time / len(search_keys)
-    avg_comparisons = total_comparisons / len(search_keys)
+    avg_time = total_time / len(keys)
+    avg_comparisons = total_comparisons / len(keys)
 
     return avg_time, avg_comparisons
 
 
 def plot_results(sizes, results, title, ylabel, save_as, decimal_places):
-    plt.figure(figsize=(8, 8), dpi=100)
+    plt.figure(figsize=(12, 8), dpi=100)
 
     for algo, values in results.items():
-        plt.plot(sizes, values, label=algo)
+        plt.plot(sizes, values, label=algo, marker='o')
 
         for i, value in enumerate(values):
-            plt.annotate(f'{value:.{decimal_places}f}', (sizes[i], value), textcoords="offset points", xytext=(0,10), ha='center')
+            plt.annotate(f'{value:.{decimal_places}f}', (
+                sizes[i], value), textcoords="offset points", xytext=(0, 10), ha='center')
 
     plt.title(title)
     plt.xlabel('Size of Data')
