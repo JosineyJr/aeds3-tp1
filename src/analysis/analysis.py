@@ -4,16 +4,14 @@ import matplotlib.pyplot as plt
 import os
 
 
-def analyze_search_performance(data, search_function, key_type='present'):
+def analyze_search_performance(data, search_function, key_type='Presente'):
     keys_present, keys_absent = generate_search_keys(
         data_or_tree=data, num_keys=15)
 
-    if key_type == 'present':
+    if key_type == 'Presente':
         keys = keys_present
-        print(f"Keys present: {keys}")
     else:
         keys = keys_absent
-        print(f"Keys absent: {keys}")
 
     total_comparisons = 0
     total_time = 0
