@@ -29,10 +29,10 @@ def main():
             comparison_results["Sequential"].append(avg_comparisons)
 
         plot_results(sizes, time_results, f"Average Time vs Data Size ({data_type})",
-                     "Time (seconds)", f"reports/sequencial/time_analysis_({data_type}).png", decimal_places=5)
+                     "Time (seconds)", f"reports/sequencial/time_analysis_{data_type}.png", decimal_places=5)
 
         plot_results(sizes, comparison_results, f"Average Comparisons vs Data Size ({data_type})",
-                     "Number of Comparisons", f"reports/sequencial/comparison_analysis_({data_type}).png", decimal_places=2)
+                     "Number of Comparisons", f"reports/sequencial/comparison_analysis_{data_type}.png", decimal_places=2)
 
 
 if __name__ == "__main__":

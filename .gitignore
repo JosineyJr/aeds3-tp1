@@ -1,3 +1,4 @@
 /.vscode
 /reports/sequencial/*
 /data/data_*
+src/*/__pycache__
