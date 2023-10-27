@@ -12,7 +12,7 @@ def generate_pdf(analysis_data, sizes_qty):
 
     data += analysis_data
 
-    doc = SimpleDocTemplate("tabela_resultados.pdf",
+    doc = SimpleDocTemplate("reports/relatorio.pdf",
                             pagesize=landscape(letter))
 
     table = Table(data)
