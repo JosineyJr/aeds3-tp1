@@ -1,10 +1,12 @@
 import sys
+import os
 
 from algorithms.search_function import search_functions
 from utils.data_loader import load
 from analysis.analysis import analyze_search_performance, plot_results
 from utils.random_data_generator import generate_random_data
 from analysis.generate_pdf import generate_pdf
+from algorithms.binary_tree import BinaryTree
 
 
 def main():
@@ -15,7 +17,7 @@ def main():
     search_types = [{'code': 'present', 'name': 'Presente'},
                     {'code': 'absent', 'name': 'Não Presente'}]
 
-    file_types = [{'code': 'ordered', 'name': "Ordenado"},
+    file_types = [{'code': 'ordered', 'name': 'Ordenado'},
                   {'code': 'unordered', 'name': 'Não Ordenado'}]
 
     sizes = [100, 500, 1000, 5000, 10000, 15000]
@@ -40,10 +42,15 @@ def main():
                 for size_index, size in enumerate(sizes):
                     filename = f"data/data_{file_type['code']}_{size}.csv"
 
-                    generate_random_data(
-                        num_records=size, data_type=file_type['code'], output_file=filename)
+                    if not os.path.exists(filename):
+                        generate_random_data(
+                            num_records=size, data_type=file_type['code'], output_file=filename)
 
                     data = load(algo=algorithm, filename=filename)
+
+                    # if size == 15 and isinstance(data, BinaryTree):
+                    #     tree_img_path = f"reports/{algorithm}_{file_type['code']}.png"
+                    #     data.draw(tree_img_path)
 
                     avg_time, avg_comparisons = analyze_search_performance(
                         data, search_functions[algorithm], key_type=search_type['code'])

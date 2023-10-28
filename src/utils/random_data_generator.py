@@ -8,9 +8,9 @@ def generate_random_data(num_records=1000, output_file="data.csv", data_type="or
     generated_keys = set()
 
     for _ in range(num_records):
-        chave = random.randint(1, 10**9)
+        chave = random.randint(1, num_records)
         while chave in generated_keys:
-            chave = random.randint(1, 10**9)
+            chave = random.randint(1, num_records)
         generated_keys.add(chave)
 
         dado1 = random.randint(1, 10**9)

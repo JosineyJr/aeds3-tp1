@@ -1,5 +1,6 @@
 /.vscode
 /reports/*/*.png
+/reports/*.png
 /data/data_*
 src/*/__pycache__
 */*.pdf

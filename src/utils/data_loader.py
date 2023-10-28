@@ -26,7 +26,7 @@ def load_data_into_tree(filename, tree_type="avl tree"):
         reader = csv.reader(f)
         next(reader)
         for row in reader:
-            chave, _, _ = int(row[0]), int(row[1]), row[2]
+            chave = int(row[0])
             tree.insert(chave)
 
     return tree

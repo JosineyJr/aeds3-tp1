@@ -38,7 +38,7 @@ def plot_results(sizes, results, title, ylabel, save_as, decimal_places, color='
 
         for i, value in enumerate(values):
             plt.annotate(f'{value:.{decimal_places}f}', (
-                sizes[i], value), textcoords="offset points", xytext=(0, 10), ha='center')
+                sizes[i], value), textcoords="offset points", xytext=(0, 5), ha='center')
 
     plt.title(title)
     plt.xlabel('Quantidade de chaves')
