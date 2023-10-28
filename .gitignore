@@ -2,3 +2,4 @@
 /reports/*/*.png
 /data/data_*
 src/*/__pycache__
+*/*.pdf

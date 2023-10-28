@@ -9,8 +9,15 @@ from analysis.generate_pdf import generate_pdf
 
 def main():
     algorithms = ['sequential', 'binary tree', 'avl tree']
-    search_types = ['Presente', 'Não Presente']
-    file_types = ["Ordenado", "Não Ordenado"]
+
+    colors = ['red', 'green', 'blue']
+
+    search_types = [{'code': 'present', 'name': 'Presente'},
+                    {'code': 'absent', 'name': 'Não Presente'}]
+
+    file_types = [{'code': 'ordered', 'name': "Ordenado"},
+                  {'code': 'unordered', 'name': 'Não Ordenado'}]
+
     sizes = [100, 500, 1000, 5000, 10000, 15000]
 
     sys.setrecursionlimit(max(sizes) + 500)
@@ -19,7 +26,9 @@ def main():
 
     pdf_report_data = [None] * reports_qty
 
-    for algorithm in algorithms:
+    imgs_path = []
+
+    for algo_index, algorithm in enumerate(algorithms):
         print(f"Algorithm: {algorithm}")
 
         for search_index, search_type in enumerate(search_types):
@@ -29,15 +38,15 @@ def main():
                 comparison_results = {algorithm: []}
 
                 for size_index, size in enumerate(sizes):
-                    filename = f"data/data_{file_type}_{size}.csv"
+                    filename = f"data/data_{file_type['code']}_{size}.csv"
 
                     generate_random_data(
-                        num_records=size, data_type=file_type, output_file=filename)
+                        num_records=size, data_type=file_type['code'], output_file=filename)
 
                     data = load(algo=algorithm, filename=filename)
 
                     avg_time, avg_comparisons = analyze_search_performance(
-                        data, search_functions[algorithm], key_type=search_type)
+                        data, search_functions[algorithm], key_type=search_type['code'])
 
                     time_results[algorithm].append(avg_time)
                     comparison_results[algorithm].append(avg_comparisons)
@@ -47,18 +56,25 @@ def main():
 
                     if not pdf_report_data[report_index]:
                         pdf_report_data[report_index] = [
-                            size, file_type, search_type]
+                            size, file_type['name'], search_type['name']]
 
                     pdf_report_data[report_index] += [
-                        f'{avg_comparisons:.2f}', f'{avg_time:.7f}']
+                        f'{avg_comparisons:.2f}', f'{avg_time:.8f}']
 
-                plot_results(sizes, time_results, f"Average Time vs Data Size - {file_type} - Key {search_type}",
-                             "Time (seconds)", f"reports/{algorithm}/time_analysis_{file_type}_{search_type}.png", decimal_places=7)
+                time_analysis_img_path = f"reports/{algorithm}/time_analysis_{file_type['code']}_{search_type['code']}.png"
+                comparison_analysis_img_path = f"reports/{algorithm}/comparison_analysis_{file_type['code']}_{search_type['code']}.png"
 
-                plot_results(sizes, comparison_results, f"Average Comparisons vs Data Size - {file_type} - Key {search_type}",
-                             "Number of Comparisons", f"reports/{algorithm}/comparison_analysis_{file_type}_{search_type}.png", decimal_places=2)
+                imgs_path.append(time_analysis_img_path)
+                imgs_path.append(comparison_analysis_img_path)
 
-    generate_pdf(analysis_data=pdf_report_data, sizes_qty=len(sizes))
+                plot_results(sizes=sizes, results=time_results, title=f"Tempo médio para encontrar a chave - {file_type['name']} - {search_type['name']}",
+                             ylabel="Tempo (segundos)", save_as=time_analysis_img_path, decimal_places=8, color=colors[algo_index])
+
+                plot_results(sizes=sizes, results=comparison_results, title=f"Nº médio de comparações para encontrar a chave - {file_type['name']} - {search_type['name']}",
+                             ylabel="Número de comparações", save_as=comparison_analysis_img_path, decimal_places=2, color=colors[algo_index])
+
+    generate_pdf(analysis_data=pdf_report_data,
+                 sizes_qty=len(sizes), imgs_path=imgs_path)
 
 
 if __name__ == "__main__":

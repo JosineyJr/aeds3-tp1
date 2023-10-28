@@ -3,7 +3,7 @@ import string
 import csv
 
 
-def generate_random_data(num_records=1000, output_file="data.csv", data_type="Ordenado"):
+def generate_random_data(num_records=1000, output_file="data.csv", data_type="ordered"):
     data = []
     generated_keys = set()
 
@@ -20,7 +20,7 @@ def generate_random_data(num_records=1000, output_file="data.csv", data_type="Or
 
         data.append([chave, dado1, dado2])
 
-    if data_type == 'Ordenado':
+    if data_type == 'ordered':
         data.sort(key=lambda x: x[0])
 
     with open(output_file, 'w', newline='') as f:

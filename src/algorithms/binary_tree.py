@@ -40,6 +40,7 @@ class BinaryTree:
             return node, comparisons
         elif key < node.key:
             item, child_comparisons = self._search_recursive(node.left, key)
+            comparisons += child_comparisons
         else:
             item, child_comparisons = self._search_recursive(node.right, key)
             comparisons += child_comparisons
