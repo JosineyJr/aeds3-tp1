@@ -16,8 +16,22 @@ Para instalar as dependências do projeto, execute:
 make install
 ```
 
+Ou:
+
+```bash
+pip install -r requirements.txt
+```
+
+## Execução
+
 Para rodar o projeto, execute:
 
 ```bash
 make run
+```
+
+Ou:
+
+```bash
+python src/main.py
 ```
