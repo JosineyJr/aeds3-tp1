@@ -6,7 +6,6 @@ from utils.data_loader import load
 from analysis.analysis import analyze_search_performance, plot_results
 from utils.random_data_generator import generate_random_data
 from analysis.generate_pdf import generate_pdf
-from algorithms.binary_tree import BinaryTree
 
 
 def main():
