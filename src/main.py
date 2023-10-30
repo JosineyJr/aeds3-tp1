@@ -48,10 +48,6 @@ def main():
 
                     data = load(algo=algorithm, filename=filename)
 
-                    # if size == 15 and isinstance(data, BinaryTree):
-                    #     tree_img_path = f"reports/{algorithm}_{file_type['code']}.png"
-                    #     data.draw(tree_img_path)
-
                     avg_time, avg_comparisons = analyze_search_performance(
                         data, search_functions[algorithm], key_type=search_type['code'])
 
