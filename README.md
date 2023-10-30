@@ -6,7 +6,7 @@ Os dados para a busca são carregados de arquivos CSV, e o desempenho de cada al
 
 ## Pré-requisitos
 
-- Python 3 ou superior
+- Python na versão 3 ou superior
 - Variável de ambiente com o nome 'python' que execute o python em uma das versões citadas acima
 - Make instalado na máquina
 
